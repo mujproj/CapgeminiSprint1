@@ -35,7 +35,7 @@ public class CustomerService implements ICustomerService {
 
 	public List<Customer> viewCustomers() {
 		et.begin();
-		List<Customer> customers = em.createQuery("Select * from customer").getResultList();
+		List<Customer> customers = em.createQuery("Select * from customer", Customer.class).getResultList();
 		et.commit();
 		return customers;
 	}
