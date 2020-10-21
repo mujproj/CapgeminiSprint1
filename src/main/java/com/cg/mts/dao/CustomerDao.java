@@ -7,8 +7,7 @@ import com.cg.mts.repository.ICustomerRepository;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-public class CustomerDao implements ICustomerRepository{
-
+public class CustomerDao implements ICustomerRepository {
 
     private EntityManager entityManager;
 
@@ -54,7 +53,7 @@ public class CustomerDao implements ICustomerRepository{
 
         List<Customer> customers = entityManager.createQuery("Select a from Customer a", Customer.class).getResultList();
 
-        if (customers == null) {
+        if (customers.size() == 0) {
             throw new CustomerNotFoundException("No customer in the database");
         }
         return customers;
