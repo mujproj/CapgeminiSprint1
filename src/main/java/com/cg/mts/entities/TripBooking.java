@@ -1,16 +1,20 @@
 package com.cg.mts.entities;
 
 import java.time.LocalDateTime;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 
 @Entity
+@NamedQuery(query = "Select e from TripBooking e where e.customerId = :customerId", name = "find tripbooking by customerId")
 public class TripBooking {
 	@Id
 	private int tripBookingId;
 	private int customerId;
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.ALL})
 	private Driver driver;
 	private String fromLocation;
 	private String toLocation;

@@ -2,6 +2,14 @@ package com.cg.mts.exception;
 
 public class DriverNotFoundException extends Exception {
 
+	public DriverNotFoundException(String string) {
+		super(string);
+	}
+
+	public DriverNotFoundException() {
+		super();
+	}
+
 	/**
 	 * 
 	 */

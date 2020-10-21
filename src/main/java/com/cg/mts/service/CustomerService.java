@@ -1,64 +1,99 @@
 package com.cg.mts.service;
 
-import java.util.List;
+import com.cg.mts.dao.CustomerDao;
+import com.cg.mts.dao.Util;
+import com.cg.mts.entities.Customer;
+import com.cg.mts.exception.CustomerNotFoundException;
+import com.cg.mts.repository.ICustomerRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-
-import com.cg.mts.dao.Util;
-import com.cg.mts.entities.Customer;
+import java.util.List;
 
 public class CustomerService implements ICustomerService {
 
-	EntityManager em = Util.getEntityManager();
-	EntityTransaction et = Util.getTransaction();
-	public Customer insertCustomer(Customer customer) {
-		et.begin();
-		em.persist(customer);
-		et.commit();
-		return customer;
-	}
+    private ICustomerRepository customerDao;
 
-	public Customer updateCustomer(Customer customer) {
-		et.begin();
-		em.merge(customer);
-		et.commit();
-		return customer;
-	}
+    private EntityManager em;
+    EntityTransaction et;
 
-	public Customer deleteCustomer(Customer customer) {
-		et.begin();
-		em.remove(customer);
-		et.commit();
-		return customer;
-	}
+    public CustomerService() {
+        Util util = Util.getInstance();
+        em = util.getEntityManager();
+        et = em.getTransaction();
+        customerDao = new CustomerDao(em);
+    }
 
-	public List<Customer> viewCustomers() {
-		et.begin();
-		List<Customer> customers = em.createQuery("Select * from customer", Customer.class).getResultList();
-		et.commit();
-		return customers;
-	}
+    @Override
+    public Customer insertCustomer(Customer customer) {
+        et.begin();
+        customer = customerDao.insertCustomer(customer);
+        et.commit();
+        return customer;
+    }
 
-	public Customer viewCustomer(int customerId) {
-		et.begin();
-		Customer customer = em.find(Customer.class, customerId);
-		et.commit();
-		return customer;
-	}
+    @Override
+    public Customer updateCustomer(Customer customer) {
+        et.begin();
 
-	public Customer validateCustomer(String username, String password) {
-		Customer customer = em.find(Customer.class, username);
-		if(customer == null) {
-			return null;
-		}
-		else {
-			customer = em.find(Customer.class, password);
-			if(customer == null) {
-				return null;
-			}
-		}
-		return customer;
-	}
+        try {
+            customer = customerDao.updateCustomer(customer);
+        } catch (CustomerNotFoundException e) {
+            e.getMessage();
+        }
 
+        et.commit();
+
+        return customer;
+    }
+
+    @Override
+    public Customer deleteCustomer(Customer customer) {
+        et.begin();
+
+        try {
+            customer = customerDao.deleteCustomer(customer);
+        } catch (CustomerNotFoundException e) {
+            e.getMessage();
+        }
+
+        et.commit();
+
+        return customer;
+    }
+
+    @Override
+    public List<Customer> viewCustomers() {
+        et.begin();
+        List<Customer> customers = null;
+        try {
+            customers = customerDao.viewCustomers();
+        } catch (CustomerNotFoundException e) {
+            e.getMessage();
+        }
+        et.commit();
+        return customers;
+    }
+
+    @Override
+    public Customer viewCustomer(int customerId) {
+        Customer customer = null;
+        try {
+            customer = customerDao.viewCustomer(customerId);
+        } catch (CustomerNotFoundException e) {
+            e.getMessage();
+        }
+        return customer;
+    }
+
+    @Override
+    public Customer validateCustomer(String username, String password) {
+        Customer customer = null;
+        try {
+            customer = customerDao.validateCustomer(username, password);
+        } catch (CustomerNotFoundException e) {
+            e.getMessage();
+        }
+        return customer;
+    }
 }

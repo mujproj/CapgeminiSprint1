@@ -2,6 +2,7 @@ package com.cg.mts.entities;
 
 import java.util.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -12,20 +13,19 @@ public class Driver extends AbstractUser {
 	@Id
 	private int driverId;
 	private String licenseNo;
-	@OneToOne
+	@OneToOne(cascade = {CascadeType.ALL})
 	private Cab cab;
 	private float rating;
 	@OneToMany(mappedBy = "driver")
 	private List<TripBooking> list;
 
 	public Driver(String username, String password, String mobileNumber, String email, int driverId, String licenseNo,
-			Cab cab, float rating, List<TripBooking> list) {
+			Cab cab, float rating) {
 		super(username, password, mobileNumber, email);
 		this.driverId = driverId;
 		this.licenseNo = licenseNo;
 		this.cab = cab;
 		this.rating = rating;
-		this.list = list;
 	}
 
 	public Driver() {

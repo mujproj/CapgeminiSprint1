@@ -22,7 +22,7 @@ public class Test {
 	public static void main(String[] args) {
 
 		Test test = new Test();
-		Customer customer = new Customer("abc", "abc", "abc", "abc", 1);
+		Customer customer = new Customer("abc", "abc", "abc", "abc");
 //		test.beginTransaction();
 //		test.insert(customer);
 //		test.endTransaction();
