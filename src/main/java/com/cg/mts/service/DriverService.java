@@ -1,6 +1,6 @@
-
 package com.cg.mts.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -13,7 +13,6 @@ import com.cg.mts.util.Util;
 import com.cg.mts.entities.Driver;
 
 public class DriverService implements IDriverService {
-
 
 	private EntityManager entityManager;
 
@@ -40,6 +39,8 @@ public class DriverService implements IDriverService {
 			driver = driverDao.updateDriver(driver);
 		} catch (DriverNotFoundException e) {
 			System.out.println(e.getMessage());
+			entityTransaction.commit();
+			return new Driver();
 		}
 		entityTransaction.commit();
 		return driver;
@@ -53,6 +54,8 @@ public class DriverService implements IDriverService {
 			driver = driverDao.deleteDriver(driverId);
 		} catch (DriverNotFoundException e) {
 			System.out.println(e.getMessage());
+			entityTransaction.commit();
+			return new Driver();
 		}
 		entityTransaction.commit();
 		return driver;
@@ -66,6 +69,8 @@ public class DriverService implements IDriverService {
 			bestDrivers = driverDao.viewBestDrivers();
 		} catch (DriverNotFoundException e) {
 			System.out.println(e.getMessage());
+			entityTransaction.commit();
+			return new ArrayList<Driver>();
 		}
 		entityTransaction.commit();
 		return bestDrivers;
@@ -77,9 +82,10 @@ public class DriverService implements IDriverService {
 		Driver driver = null;
 		try {
 			driver = driverDao.viewDriver(driverId);
-			return driver;
 		} catch (DriverNotFoundException e) {
 			System.out.println(e.getMessage());
+			entityTransaction.commit();
+			return new Driver();
 		}
 		entityTransaction.commit();
 		return driver;

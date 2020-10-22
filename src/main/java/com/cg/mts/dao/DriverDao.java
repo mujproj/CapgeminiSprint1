@@ -1,17 +1,16 @@
 package com.cg.mts.dao;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-
 import com.cg.mts.entities.Driver;
 import com.cg.mts.exception.DriverNotFoundException;
 import com.cg.mts.repository.IDriverRepository;
 
+import javax.persistence.EntityManager;
+import java.util.List;
+
 public class DriverDao implements IDriverRepository {
-	
+
 	private EntityManager entityManager;
-	
+
 	public DriverDao(EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
@@ -25,7 +24,7 @@ public class DriverDao implements IDriverRepository {
 	@Override
 	public Driver updateDriver(Driver driver) throws DriverNotFoundException {
 		boolean status = checkIfExists(driver.getDriverId());
-		if(!status) {
+		if (!status) {
 			throw new DriverNotFoundException("Driver Could Not be Found");
 		}
 		driver = entityManager.merge(driver);
@@ -35,13 +34,13 @@ public class DriverDao implements IDriverRepository {
 	private boolean checkIfExists(int driverId) {
 		Driver driver = entityManager.find(Driver.class, driverId);
 		boolean result = driver != null;
-        return result;
+		return result;
 	}
 
 	@Override
 	public Driver deleteDriver(int driverId) throws DriverNotFoundException {
 		boolean status = checkIfExists(driverId);
-		if(!status) {
+		if (!status) {
 			throw new DriverNotFoundException("Driver not found");
 		}
 		Driver driver = entityManager.find(Driver.class, driverId);
@@ -52,7 +51,7 @@ public class DriverDao implements IDriverRepository {
 	@Override
 	public Driver viewDriver(int driverId) throws DriverNotFoundException {
 		boolean status = checkIfExists(driverId);
-		if(!status) {
+		if (!status) {
 			throw new DriverNotFoundException("Driver Could Not Be Found");
 		}
 		Driver driver = entityManager.find(Driver.class, driverId);
@@ -61,8 +60,9 @@ public class DriverDao implements IDriverRepository {
 
 	@Override
 	public List<Driver> viewBestDrivers() throws DriverNotFoundException {
-		List<Driver> bestDrivers = entityManager.createQuery("Select a from Driver a where a.rating >=4.5f", Driver.class).getResultList();
-		if(bestDrivers.size() == 0) {
+		List<Driver> bestDrivers = entityManager
+				.createQuery("Select a from Driver a where a.rating >=4.5f", Driver.class).getResultList();
+		if (bestDrivers.size() == 0) {
 			throw new DriverNotFoundException("No Drivers with best rating");
 		}
 		return bestDrivers;

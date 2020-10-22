@@ -6,6 +6,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -19,6 +20,7 @@ import javax.persistence.NamedQuery;
 })
 public class TripBooking {
 	@Id
+	@GeneratedValue
 	private int tripBookingId;
 	private int customerId;
 	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.EAGER)
@@ -112,10 +114,10 @@ public class TripBooking {
 		this.bill = bill;
 	}
 
-	public TripBooking(int tripBookingId, int customerId, Driver driver, String fromLocation, String toLocation,
+	public TripBooking(int customerId, Driver driver, String fromLocation, String toLocation,
 			LocalDateTime fromDateTime, LocalDateTime toDateTime, boolean status, float distanceInKm, float bill) {
 		super();
-		this.tripBookingId = tripBookingId;
+//		this.tripBookingId = tripBookingId;
 		this.customerId = customerId;
 		this.driver = driver;
 		this.fromLocation = fromLocation;

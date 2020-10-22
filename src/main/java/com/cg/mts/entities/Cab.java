@@ -1,6 +1,7 @@
 package com.cg.mts.entities;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -12,13 +13,14 @@ import javax.persistence.NamedQuery;
 })
 public class Cab {
 	@Id
+	@GeneratedValue
 	private int cabId;
 	private String carType;
 	private float perKmRate;
 
-	public Cab(int cabId, String carType, float perKmRate) {
+	public Cab(String carType, float perKmRate) {
 		super();
-		this.cabId = cabId;
+//		this.cabId = cabId;
 		this.carType = carType;
 		this.perKmRate = perKmRate;
 	}

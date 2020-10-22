@@ -1,4 +1,3 @@
-
 package com.cg.mts.service;
 
 import java.util.List;
@@ -56,7 +55,7 @@ public class TripBookingService implements ITripBookingService {
 	}
 
 	public TripBooking calculateBill(int customerId) {
-//		TripBooking tripBooking = em.find(TripBooking.class, customerId);
+		// TripBooking tripBooking = em.find(TripBooking.class, customerId);
 		TripBooking tripBooking = tripBookingDao.calculateBill(customerId);
 		return tripBooking;
 	}

@@ -4,6 +4,7 @@ import java.util.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -11,6 +12,7 @@ import javax.persistence.OneToOne;
 @Entity
 public class Driver extends AbstractUser {
 	@Id
+	@GeneratedValue
 	private int driverId;
 	private String licenseNo;
 	@OneToOne(cascade = {CascadeType.ALL})
@@ -19,10 +21,10 @@ public class Driver extends AbstractUser {
 	@OneToMany(mappedBy = "driver")
 	private List<TripBooking> list;
 
-	public Driver(String username, String password, String mobileNumber, String email, int driverId, String licenseNo,
+	public Driver(String username, String password, String mobileNumber, String email, String licenseNo,
 			Cab cab, float rating) {
 		super(username, password, mobileNumber, email);
-		this.driverId = driverId;
+//		this.driverId = driverId;
 		this.licenseNo = licenseNo;
 		this.cab = cab;
 		this.rating = rating;

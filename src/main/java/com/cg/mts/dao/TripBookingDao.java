@@ -1,17 +1,15 @@
 package com.cg.mts.dao;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-
-//import com.cg.mts.entities.Customer;
 import com.cg.mts.entities.TripBooking;
 import com.cg.mts.repository.ITripBookingRepository;
 
-public class TripBookingDao implements ITripBookingRepository{
+import javax.persistence.EntityManager;
+import java.util.List;
+
+public class TripBookingDao implements ITripBookingRepository {
 
 	private EntityManager entityManager;
-	
+
 	public TripBookingDao(EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
@@ -29,15 +27,10 @@ public class TripBookingDao implements ITripBookingRepository{
 		return tripBooking;
 	}
 
-//	private boolean checkIfExixts() {
-//		// TODO Auto-generated method stub
-//		return false;
-//	}
-
 	@Override
 	public TripBooking deleteTripBooking(TripBooking tripBooking) {
 		boolean success = checkExists(tripBooking.getTripBookingId());
-		if(success) {
+		if (success) {
 			entityManager.remove(tripBooking);
 		}
 		return tripBooking;
@@ -45,7 +38,8 @@ public class TripBookingDao implements ITripBookingRepository{
 
 	@Override
 	public List<TripBooking> viewAllTripsCustomer(int customerId) {
-		List<TripBooking> allTrips = entityManager.createNamedQuery("find tripbooking by customerId", TripBooking.class).setParameter("customerId", customerId).getResultList();
+		List<TripBooking> allTrips = entityManager.createNamedQuery("find tripbooking by customerId", TripBooking.class)
+				.setParameter("customerId", customerId).getResultList();
 		return allTrips;
 	}
 
@@ -54,11 +48,10 @@ public class TripBookingDao implements ITripBookingRepository{
 		TripBooking tripBooking = entityManager.find(TripBooking.class, customerId);
 		return tripBooking;
 	}
-	
+
 	private boolean checkExists(Integer tripbookingid) {
-        TripBooking tripBooking = entityManager.find(TripBooking.class, tripbookingid);
-        boolean result = tripBooking != null;
-        return result;
-    }
-	
+		TripBooking tripBooking = entityManager.find(TripBooking.class, tripbookingid);
+		boolean result = tripBooking != null;
+		return result;
+	}
 }

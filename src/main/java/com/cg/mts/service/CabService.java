@@ -1,6 +1,6 @@
-
 package com.cg.mts.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -39,6 +39,8 @@ public class CabService implements ICabService {
 			cab = cabDao.updateCab(cab);
 		} catch (CabNotFoundException e) {
 			System.out.println(e.getMessage());
+			entityTransaction.commit();
+			return new Cab();
 		}
 		entityTransaction.commit();
 		return cab;
@@ -51,6 +53,8 @@ public class CabService implements ICabService {
 			cab = cabDao.deleteCab(cab);
 		} catch (CabNotFoundException e) {
 			System.out.println(e.getMessage());
+			entityTransaction.commit();
+			return new Cab();
 		}
 		entityTransaction.commit();
 		return cab;
@@ -64,6 +68,8 @@ public class CabService implements ICabService {
 			listOfCabs = cabDao.viewCabsOfType(carType);
 		} catch (CabNotFoundException e) {
 			System.out.println(e.getMessage());
+			entityTransaction.commit();
+			return new ArrayList<Cab>();
 		}
 		entityTransaction.commit();
 		return listOfCabs;
@@ -72,13 +78,18 @@ public class CabService implements ICabService {
 	public int countCabsOfType(String carType) {
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 		entityTransaction.begin();
-//		int count = (Integer) entityManager.createQuery("Select count(*) from cab where cartype = 'cartype'").setParameter("cartype", carType).getSingleResult();
-		int count=0;
+		// int count = (Integer) entityManager.createQuery("Select count(*) from cab
+		// where cartype = 'cartype'").setParameter("cartype",
+		// carType).getSingleResult();
+
+		int count = 0;
+
 		try {
 			count = cabDao.countCabsOfType(carType);
 		} catch (CabNotFoundException e) {
 			System.out.println(e.getMessage());
 		}
+
 		entityTransaction.commit();
 		return count;
 	}
