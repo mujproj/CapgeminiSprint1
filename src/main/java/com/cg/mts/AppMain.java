@@ -129,143 +129,146 @@ import com.cg.mts.service.TripBookingService;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
 public class AppMain {
 
-    public static void main(String[] args) {
+	public static void main(String[] args) {
 
-        AppMain appMain = new AppMain();
-//        appMain.executeCustomerService();
-        appMain.executeAdminServices();
-        appMain.executeCustomerService();
-        appMain.executeCabService();
-        appMain.executeDriverService();
-        appMain.executeTripBookingService();
-        Util util = Util.getInstance();
-        util.close();
-    }
+		AppMain appMain = new AppMain();
+		// appMain.executeCustomerService();
+		appMain.executeAdminServices();
+		appMain.executeCustomerService();
+		appMain.executeCabService();
+		appMain.executeDriverService();
+		appMain.executeTripBookingService();
+		Util util = Util.getInstance();
+		util.close();
+	}
 
-    private void executeAdminServices() {
+	private void executeAdminServices() {
 
-        Admin admin = new Admin("Admin", "123", "12345", "abcde");
-        Admin admin1 = new Admin("Admin1", "123", "12345", "abc");
-        Admin admin2 = new Admin("Admin2", "123", "12345", "abc");
+		Admin admin = new Admin("Administhis", "123456", "9660461595", "abc@gmail.com");
+		Admin admin1 = new Admin("Admin1isthat", "123456", "9873094556", "jaygupta@gmail.com");
+		Admin admin2 = new Admin("Admin2", "123", "12345", "abc");
 
+		IAdminService adminService = new AdminService();
+		adminService.insertAdmin(admin);
+		adminService.insertAdmin(admin1);
+		adminService.insertAdmin(admin2);
+		// adminService.deleteAdmin(1);
+		List<TripBooking> li = adminService.getAllTrips(1);
+		for (TripBooking l : li) {
+			System.out.println("Bill" + l.getBill());
+		}
+		List<TripBooking> li2 = adminService.getAllTripsForDays(1, LocalDateTime.now(), LocalDateTime.now());
+		List<TripBooking> li3 = adminService.getTripsCabwise();
+		List<TripBooking> li4 = adminService.getTripsCustomerwise();
+		for (TripBooking l : li4) {
+			System.out.println(l.getBill());
+		}
+		List<TripBooking> li5 = adminService.getTripsDatewise();
 
-        IAdminService adminService = new AdminService();
-        adminService.insertAdmin(admin);
-        adminService.insertAdmin(admin1);
-        adminService.insertAdmin(admin2);
-//        adminService.deleteAdmin(1);
-        List<TripBooking> li = adminService.getAllTrips(1);
-        for(TripBooking l: li) {
-        	System.out.println("Bill" + l.getBill());
-        }
-        List<TripBooking> li2 = adminService.getAllTripsForDays(1, LocalDateTime.now(), LocalDateTime.now());
-        List<TripBooking> li3 = adminService.getTripsCabwise();
-        List<TripBooking> li4 = adminService.getTripsCustomerwise();
-        for(TripBooking l: li4) {
-        	System.out.println(l.getBill());
-        }
-        List<TripBooking> li5 = adminService.getTripsDatewise();
-        
-        Admin updateAdmin = new Admin("Updated admin", "1654", "4587", "khagdja");
-        //System.out.println(admin.getAdminId());
-        updateAdmin.setAdminId(admin.getAdminId());
-        //System.out.println(updateAdmin.getAdminId());
-        updateAdmin = adminService.updateAdmin(updateAdmin);
-    }
+		Admin updateAdmin = new Admin("Updated admin", "1654", "4587", "khagdja");
+		// System.out.println(admin.getAdminId());
+		updateAdmin.setAdminId(admin.getAdminId());
+		// System.out.println(updateAdmin.getAdminId());
+		updateAdmin = adminService.updateAdmin(updateAdmin);
+	}
 
-    public void executeCustomerService() {
+	public void executeCustomerService() {
 
-        Customer customer = new Customer("Customer", "123", "123456", "abc");
-//        customer.setCustomerId(1);
-        Customer customer1 = new Customer("Customer1", "123", "123456", "abc");
-//        customer.setCustomerId(2);
-        Customer customer2 = new Customer("Customer2", "123", "123456", "abc");
+		Customer customer = new Customer("Customer", "1234567890", "9660461595", "jaygupta@gmail.com");
+		// customer.setCustomerId(1);
+		Customer customer1 = new Customer("Customer1", "123", "123456", "abc");
+		// customer.setCustomerId(2);
+		Customer customer2 = new Customer("Customer2", "123", "123456", "abc");
 
+		ICustomerService customerService = new CustomerService();
+		Customer c = customerService.insertCustomer(customer);
+		Customer c1 = customerService.insertCustomer(customer1);
+		Customer c2 = customerService.insertCustomer(customer2);
+//		customerService.deleteCustomer(customer2);
+		Customer customer3 = new Customer("Customer 3", "234", "345", "abc@gmail.com");
+		customer3.setCustomerId(c.getCustomerId());
+		customer3 = customerService.updateCustomer(customer3);
+		Customer customer5 = customerService.viewCustomer(0);
+		Customer customer4 = customerService.validateCustomer("Customer", "123");
+		System.out.println(customer4.getMobileNumber());
+		System.out.println("New customer has" + c.getUsername());
 
-        ICustomerService customerService = new CustomerService();
-        Customer c = customerService.insertCustomer(customer);
-        Customer c1 = customerService.insertCustomer(customer1);
-        Customer c2 = customerService.insertCustomer(customer2);
-        customerService.deleteCustomer(customer2);
-        Customer customer3 = new Customer("Customer 3", "234", "345", "56");
-        customer3.setCustomerId(c1.getCustomerId());
-        customer3 = customerService.updateCustomer(customer3);
-        Customer customer5 = customerService.viewCustomer(0);
-        Customer customer4 = customerService.validateCustomer("Customer", "123");
-        System.out.println(customer4.getMobileNumber());
-        System.out.println("New customer has" + c.getUsername());
-        
-//        System.out.println(customer5.getEmail());
-        List<Customer> allCustomers= customerService.viewCustomers();
-        for(Customer c11: allCustomers) {
-        	System.out.println(c11.getEmail());
-        }
-//        System.out.println("New customer with id 1 as: " + customerService.viewCustomer(1).getUsername());
+		// System.out.println(customer5.getEmail());
+		List<Customer> allCustomers = customerService.viewCustomers();
+		for (Customer c11 : allCustomers) {
+			System.out.println(c11.getEmail());
+		}
+		// System.out.println("New customer with id 1 as: " +
+		// customerService.viewCustomer(1).getUsername());
 
-//        List<Customer> list = customerService.viewCustomers();
-//
-//        for (Customer list1 : list)
-//            System.out.println("The whole customer list is:" + list1.getUsername());
-        //System.out.println("New customer deleted is " + customerService.deleteCustomer(c).getUsername());
+		// List<Customer> list = customerService.viewCustomers();
+		//
+		// for (Customer list1 : list)
+		// System.out.println("The whole customer list is:" + list1.getUsername());
+		// System.out.println("New customer deleted is " +
+		// customerService.deleteCustomer(c).getUsername());
 
+	}
 
-    }
-    public void executeCabService() {
-    	Cab cab = new Cab("ABC", 0.5f);
-    	ICabService cabService = new CabService();
-    	Cab cabz = cabService.insertCab(cab);
-    	int count = cabService.countCabsOfType("ABC");
-    	System.out.println(count);
-    	cabService.deleteCab(cab);
-    	Cab cab1 = new Cab("ABD", 0.6f);
-    	cabService.insertCab(cab1);
-    	Cab cab2 = new Cab("ABC", 0.8f);
-    	cab2.setCabId(cab1.getCabId());
-    	cabService.updateCab(cab2);
-    	List<Cab> cc = cabService.viewCabsOfType("ABC");
-    	for(Cab cf: cc) {
-    		System.out.println(cf.getCabId());
-    	}
-    }
-    public void executeDriverService() {
-    	Cab cab = new Cab("ABC", 1.0f);
-    	Driver driver = new Driver("cab", "cab1", "Cab2", "Cab3", "Cab4", cab, 4.5f);
-    	IDriverService driverService = new DriverService();
-    	driverService.insertDriver(driver);
-    	driverService.deleteDriver(6);
-    	Driver driver2 = new Driver("cab", "cab1", "Cab3", "Cab3", "Cab3", cab, 4.0f);
-    	driver2.setDriverId(driver.getDriverId());
-    	driverService.updateDriver(driver2);
-    	List<Driver> drivers = driverService.viewBestDrivers();
-    	for(Driver dd: drivers) {
-    		System.out.println(dd.getEmail());
-    	}
-    	drivers = driverService.viewBestDrivers();
-    	Driver ddd = driverService.viewDriver(driver2.getDriverId());
-    	System.out.print(ddd.getLicenseNo());
-//    	Driver
-    }
-    public void executeTripBookingService() {
-    	Cab cab = new Cab("ABC", 1.0f);
-    	Driver driver = new Driver("cab", "cab1", "Cab2", "Cab3", "Cab4", cab, 4.5f);
-    	TripBooking tripBooking = new TripBooking(11, driver, "abc", "bac", LocalDateTime.now(), LocalDateTime.now(), false, 11, 0);
-    	ITripBookingService tripBookingService = new TripBookingService();
-    	tripBookingService.insertTripBooking(tripBooking);
-    	TripBooking trp = tripBookingService.calculateBill(1);
-    	if(trp == null) {
-    		System.out.println("no value");
-    	}
-    	System.out.println(trp);
-    	tripBookingService.deleteTripBooking(tripBooking);
-    	TripBooking newTripBooking = new TripBooking(11, driver, "abc", "bac", LocalDateTime.now(), LocalDateTime.now(), true, 11, 0);
-    	newTripBooking.setTripBookingId(tripBooking.getTripBookingId());
-    	tripBookingService.updateTripBooking(newTripBooking);
-    	List<TripBooking> tr1p = tripBookingService.viewAllTripsCustomer(tripBooking.getCustomerId());
-    	for(TripBooking trk: tr1p) {
-    		System.out.println(trk.getFromLocation());
-    	}
-    }
+	public void executeCabService() {
+		Cab cab = new Cab("ABC", 0.5f);
+		ICabService cabService = new CabService();
+		Cab cabz = cabService.insertCab(cab);
+		int count = cabService.countCabsOfType("ABC");
+		System.out.println(count);
+		cabService.deleteCab(cab);
+		Cab cab1 = new Cab("ABD", 0.6f);
+		cabService.insertCab(cab1);
+		Cab cab2 = new Cab("ABC", 0.8f);
+		cab2.setCabId(cab1.getCabId());
+		cabService.updateCab(cab2);
+		List<Cab> cc = cabService.viewCabsOfType("ABC");
+		for (Cab cf : cc) {
+			System.out.println(cf.getCabId());
+		}
+	}
+
+	public void executeDriverService() {
+		Cab cab = new Cab("ABC", 1.0f);
+		Driver driver = new Driver("cabisdriver", "cab1ispassword", "9660462595", "taj.hotel@gmail.com", "Cab4", cab, 4.5f);
+		IDriverService driverService = new DriverService();
+		driverService.insertDriver(driver);
+		driverService.deleteDriver(6);
+		Driver driver2 = new Driver("cab", "cab1", "Cab3", "Cab3", "Cab3", cab, 4.0f);
+		driver2.setDriverId(driver.getDriverId());
+		driverService.updateDriver(driver2);
+		List<Driver> drivers = driverService.viewBestDrivers();
+		for (Driver dd : drivers) {
+			System.out.println(dd.getEmail());
+		}
+		drivers = driverService.viewBestDrivers();
+		Driver ddd = driverService.viewDriver(driver2.getDriverId());
+		System.out.print(ddd.getLicenseNo());
+		// Driver
+	}
+
+	public void executeTripBookingService() {
+		Cab cab = new Cab("ABC", 1.0f);
+		Driver driver = new Driver("cab", "cab1", "Cab2", "Cab3", "Cab4", cab, 4.5f);
+		TripBooking tripBooking = new TripBooking(11, driver, "abc", "bac", LocalDateTime.now(), LocalDateTime.now(),
+				false, 11, 0);
+		ITripBookingService tripBookingService = new TripBookingService();
+		tripBookingService.insertTripBooking(tripBooking);
+		TripBooking trp = tripBookingService.calculateBill(1);
+		if (trp == null) {
+			System.out.println("no value");
+		}
+		System.out.println(trp);
+		tripBookingService.deleteTripBooking(tripBooking);
+		TripBooking newTripBooking = new TripBooking(11, driver, "abc", "bac", LocalDateTime.now(), LocalDateTime.now(),
+				true, 11, 0);
+		newTripBooking.setTripBookingId(tripBooking.getTripBookingId());
+		tripBookingService.updateTripBooking(newTripBooking);
+		List<TripBooking> tr1p = tripBookingService.viewAllTripsCustomer(tripBooking.getCustomerId());
+		for (TripBooking trk : tr1p) {
+			System.out.println(trk.getFromLocation());
+		}
+	}
 }
